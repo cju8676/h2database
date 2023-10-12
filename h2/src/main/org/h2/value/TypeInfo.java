@@ -22,6 +22,8 @@ import org.h2.message.DbException;
  */
 public class TypeInfo extends ExtTypeInfo implements Typed {
 
+    public static final TypeInfo TYPE_SECURE_PASSWORD;
+
     /**
      * UNKNOWN type with parameters.
      */
@@ -218,6 +220,7 @@ public class TypeInfo extends ExtTypeInfo implements Typed {
     private final ExtTypeInfo extTypeInfo;
 
     static {
+        TYPE_SECURE_PASSWORD = new TypeInfo(Value.SECURE_PASSWORD);
         TypeInfo[] infos = new TypeInfo[Value.TYPE_COUNT];
         TYPE_UNKNOWN = new TypeInfo(Value.UNKNOWN);
         // NULL
@@ -339,6 +342,14 @@ public class TypeInfo extends ExtTypeInfo implements Typed {
                 precision = 1;
             }
             return new TypeInfo(Value.VARCHAR, precision);
+        case Value.SECURE_PASSWORD:
+            if (precision < 1 || precision >= Constants.MAX_STRING_LENGTH) {
+                if (precision != 0) {
+                    return TYPE_SECURE_PASSWORD;
+                }
+                precision = 1;
+            }
+            return new TypeInfo(Value.SECURE_PASSWORD, precision);
         case Value.CLOB:
             if (precision < 1) {
                 return TYPE_CLOB;

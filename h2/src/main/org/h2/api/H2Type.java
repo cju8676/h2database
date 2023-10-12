@@ -16,6 +16,8 @@ import org.h2.value.Value;
  */
 public final class H2Type implements SQLType {
 
+    public static final H2Type SECURE_PASSWORD = new H2Type(TypeInfo.TYPE_SECURE_PASSWORD, "SECURE_PASSWORD");
+
     // Character strings
 
     /**

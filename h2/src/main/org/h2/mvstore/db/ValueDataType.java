@@ -404,6 +404,7 @@ public final class ValueDataType extends BasicDataType<Value> implements Statefu
                 putLong(uuid.getLow());
             break;
         }
+        case Value.SECURE_PASSWORD:
         case Value.VARCHAR: {
             String s = v.getString();
             int len = s.length();

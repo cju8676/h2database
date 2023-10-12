@@ -51,6 +51,8 @@ import org.h2.value.lob.LobDataInMemory;
  */
 public abstract class Value extends VersionedValue<Value> implements HasSQL, Typed {
 
+
+
     /**
      * The data type is unknown at this time.
      */
@@ -266,10 +268,12 @@ public abstract class Value extends VersionedValue<Value> implements HasSQL, Typ
      */
     public static final int ROW = ARRAY + 1;
 
+    public static final int SECURE_PASSWORD = ROW + 1;
+
     /**
      * The number of value types.
      */
-    public static final int TYPE_COUNT = ROW + 1;
+    public static final int TYPE_COUNT = SECURE_PASSWORD + 1;
 
     /**
      * Group for untyped NULL data type.
@@ -1137,6 +1141,7 @@ public abstract class Value extends VersionedValue<Value> implements HasSQL, Typ
         case CHAR:
             return convertToChar(targetType, provider, conversionMode, column);
         case VARCHAR:
+        case SECURE_PASSWORD:
             return convertToVarchar(targetType, provider, conversionMode, column);
         case CLOB:
             return convertToClob(targetType, conversionMode, column);
@@ -1205,7 +1210,7 @@ public abstract class Value extends VersionedValue<Value> implements HasSQL, Typ
             return convertToArray(targetType, provider, conversionMode, column);
         case ROW:
             return convertToRow(targetType, provider, conversionMode, column);
-        default:
+            default:
             throw getDataConversionError(targetValueType);
         }
     }

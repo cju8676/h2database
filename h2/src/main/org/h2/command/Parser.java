@@ -5851,6 +5851,8 @@ public final class Parser extends ParserBase {
             return parseTimeType();
         case "TIMESTAMP":
             return parseTimestampType();
+        case "SECURE_PASSWORD":
+            return TypeInfo.getTypeInfo(Value.SECURE_PASSWORD, 4, 0, null);
         }
         // Domain names can't have multiple words without quotes
         if (originalCase.length() == original.length()) {
@@ -5891,6 +5893,7 @@ public final class Parser extends ParserBase {
                             case Value.CHAR:
                             case Value.VARCHAR:
                             case Value.VARCHAR_IGNORECASE:
+                            case Value.SECURE_PASSWORD:
                             case Value.BINARY:
                             case Value.VARBINARY:
                             case Value.JAVA_OBJECT:

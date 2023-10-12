@@ -51,6 +51,7 @@ public final class Transfer {
     private static final int LOB_MAGIC = 0x1234;
     private static final int LOB_MAC_SALT_LENGTH = 16;
 
+    private static final int SECURE_PASSWORD = 44;
     private static final int NULL = 0;
     private static final int BOOLEAN = 1;
     private static final int TINYINT = 2;
@@ -88,7 +89,7 @@ public final class Transfer {
     private static final int DECFLOAT = 31;
 
     private static final int[] VALUE_TO_TI = new int[Value.TYPE_COUNT + 1];
-    private static final int[] TI_TO_VALUE = new int[45];
+    private static final int[] TI_TO_VALUE = new int[46];
 
     static {
         addType(-1, Value.UNKNOWN);
@@ -134,6 +135,7 @@ public final class Transfer {
         addType(41, Value.TIME_TZ);
         addType(42, Value.BINARY);
         addType(43, Value.DECFLOAT);
+        addType(SECURE_PASSWORD, Value.SECURE_PASSWORD);
     }
 
     private static void addType(int typeInformationType, int valueType) {
@@ -508,6 +510,9 @@ public final class Transfer {
         int valueType = type.getValueType();
         writeInt(VALUE_TO_TI[valueType + 1]);
         switch (valueType) {
+        case Value.SECURE_PASSWORD:
+            writeInt((int) type.getDeclaredPrecision());
+            break;
         case Value.UNKNOWN:
         case Value.NULL:
         case Value.BOOLEAN:
@@ -931,6 +936,10 @@ public final class Transfer {
             break;
         case Value.CHAR:
             writeInt(CHAR);
+            writeString(v.getString());
+            break;
+        case Value.SECURE_PASSWORD:
+            writeInt(SECURE_PASSWORD);
             writeString(v.getString());
             break;
         case Value.BLOB: {
