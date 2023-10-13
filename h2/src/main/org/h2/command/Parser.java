@@ -5852,7 +5852,7 @@ public final class Parser extends ParserBase {
         case "TIMESTAMP":
             return parseTimestampType();
         case "SECURE_PASSWORD":
-            return TypeInfo.getTypeInfo(Value.SECURE_PASSWORD, 4, 0, null);
+            return TypeInfo.getTypeInfo(Value.SECURE_PASSWORD, 255, 0, null);
         }
         // Domain names can't have multiple words without quotes
         if (originalCase.length() == original.length()) {

@@ -343,6 +343,8 @@ public class DataType {
     public static int convertTypeToSQLType(TypeInfo type) {
         int valueType = type.getValueType();
         switch (valueType) {
+        case Value.SECURE_PASSWORD:
+            return Types.VARCHAR;
         case Value.NUMERIC:
             return type.getExtTypeInfo() != null ? Types.DECIMAL : Types.NUMERIC;
         case Value.REAL:
