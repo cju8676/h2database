@@ -13,7 +13,6 @@ import static org.h2.value.ValueVarchar.EMPTY;
 
 public class ValuePassword extends ValueStringBase {
 
-    private static final String ENCRYPTION_KEY = Base64.getEncoder().encodeToString(new SecureRandom().generateSeed(16));
     private ValuePassword(String value) {
         super(value);
     }
@@ -36,18 +35,21 @@ public class ValuePassword extends ValueStringBase {
         if (s.isEmpty()) {
             return provider != null && provider.getMode().treatEmptyStringsAsNull ? ValueNull.INSTANCE : EMPTY;
         }
-        ValuePassword obj = new ValuePassword(StringUtils.cache(encrypt(s)));
+        String[] split = s.split("~~~");
+        String pword = split[0];
+        String key = split[1];
+        ValuePassword obj = new ValuePassword(StringUtils.cache(encrypt(pword, key)));
         if (s.length() > 100) {
             return obj;
         }
         return Value.cache(obj);
     }
 
-    public static String encrypt(String s) {
+    public static String encrypt(String s,  String key) {
         try {
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-            SecretKeySpec secretKey = new SecretKeySpec(ENCRYPTION_KEY.getBytes(), "AES");
-            System.out.println("ENCRYPTION KEY: " + ENCRYPTION_KEY);
+            SecretKeySpec secretKey = new SecretKeySpec(key.getBytes(), "AES");
+            System.out.println("ENCRYPTION KEY: " + key);
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
             byte[] encryptedBytes = cipher.doFinal(s.getBytes());
             return Base64.getEncoder().encodeToString(encryptedBytes);
@@ -57,10 +59,11 @@ public class ValuePassword extends ValueStringBase {
         }
     }
 
-    public static String decrypt(String encrypted) {
+    //TODO: utilize
+    public static String decrypt(String encrypted, String key) {
         try {
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-            SecretKeySpec secretKey = new SecretKeySpec(ENCRYPTION_KEY.getBytes(), "AES");
+            SecretKeySpec secretKey = new SecretKeySpec(key.getBytes(), "AES");
             cipher.init(Cipher.DECRYPT_MODE, secretKey);
             byte[] decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(encrypted));
             return new String(decryptedBytes);
