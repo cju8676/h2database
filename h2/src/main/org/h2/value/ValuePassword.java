@@ -36,6 +36,9 @@ public class ValuePassword extends ValueStringBase {
             return provider != null && provider.getMode().treatEmptyStringsAsNull ? ValueNull.INSTANCE : EMPTY;
         }
         String[] split = s.split("~~~");
+        if (split.length != 2) {
+            return Value.cache(new ValuePassword(StringUtils.cache(s)));
+        }
         String pword = split[0];
         String key = split[1];
         ValuePassword obj = new ValuePassword(StringUtils.cache(encrypt(pword, key)));
@@ -59,17 +62,4 @@ public class ValuePassword extends ValueStringBase {
         }
     }
 
-    //TODO: utilize
-    public static String decrypt(String encrypted, String key) {
-        try {
-            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-            SecretKeySpec secretKey = new SecretKeySpec(key.getBytes(), "AES");
-            cipher.init(Cipher.DECRYPT_MODE, secretKey);
-            byte[] decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(encrypted));
-            return new String(decryptedBytes);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return encrypted; // Return the original encrypted string if decryption fails
-        }
-    }
 }

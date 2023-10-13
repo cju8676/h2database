@@ -275,6 +275,7 @@ public class TypeInfo extends ExtTypeInfo implements Typed {
         infos[Value.ARRAY] = TYPE_ARRAY_UNKNOWN = new TypeInfo(Value.ARRAY);
         infos[Value.ROW] = TYPE_ROW_EMPTY = new TypeInfo(Value.ROW, -1L, -1, //
                 new ExtTypeInfoRow(new LinkedHashMap<>()));
+        infos[Value.SECURE_PASSWORD] = TYPE_SECURE_PASSWORD;
         TYPE_INFOS_BY_VALUE_TYPE = infos;
     }
 
