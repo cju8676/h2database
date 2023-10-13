@@ -1143,8 +1143,9 @@ public abstract class Value extends VersionedValue<Value> implements HasSQL, Typ
         case CHAR:
             return convertToChar(targetType, provider, conversionMode, column);
         case VARCHAR:
-        case SECURE_PASSWORD:
             return convertToVarchar(targetType, provider, conversionMode, column);
+        case SECURE_PASSWORD:
+            return convertToSecurePassword(targetType, provider, conversionMode, column);
         case CLOB:
             return convertToClob(targetType, conversionMode, column);
         case VARCHAR_IGNORECASE:
@@ -1279,9 +1280,9 @@ public abstract class Value extends VersionedValue<Value> implements HasSQL, Typ
     private Value convertToVarchar(TypeInfo targetType, CastDataProvider provider, int conversionMode, Object column) {
         int valueType = getValueType();
         switch (valueType) {
-        case BLOB:
-        case JAVA_OBJECT:
-            throw getDataConversionError(targetType.getValueType());
+            case BLOB:
+            case JAVA_OBJECT:
+                throw getDataConversionError(targetType.getValueType());
         }
         if (conversionMode != CONVERT_TO) {
             String s = getString();
@@ -1294,6 +1295,26 @@ public abstract class Value extends VersionedValue<Value> implements HasSQL, Typ
             }
         }
         return valueType == Value.VARCHAR ? this : ValueVarchar.get(getString(), provider);
+    }
+
+    private Value convertToSecurePassword(TypeInfo targetType, CastDataProvider provider, int conversionMode, Object column) {
+        int valueType = getValueType();
+        switch (valueType) {
+        case BLOB:
+        case JAVA_OBJECT:
+            throw getDataConversionError(targetType.getValueType());
+        }
+        if (conversionMode != CONVERT_TO) {
+            String s = getString();
+            int p = MathUtils.convertLongToInt(targetType.getPrecision());
+            if (s.length() > p) {
+                if (conversionMode != CAST_TO) {
+                    throw getValueTooLongException(targetType, column);
+                }
+                return ValuePassword.get(s.substring(0, p), provider);
+            }
+        }
+        return valueType == Value.SECURE_PASSWORD ? this : ValuePassword.get(getString(), provider);
     }
 
     private ValueClob convertToClob(TypeInfo targetType, int conversionMode, Object column) {
