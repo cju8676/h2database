@@ -251,10 +251,12 @@ public class ParserUtil {
      */
     public static final int LEFT = KEY + 1;
 
+    // BEGIN MODIFIED CODE CSCI621 H2 A3
     /**
      * The token "LEFT_ID".
      */
     public static final int LEFT_ID = LEFT + 1;
+    // END MODIFIED CODE CSCI621 H2 A3
 
     /**
      * The token "LIKE".
@@ -533,7 +535,9 @@ public class ParserUtil {
         map.put("JOIN", JOIN);
         map.put("KEY", KEY);
         map.put("LEFT", LEFT);
+        // BEGIN MODIFIED CODE CSCI621 H2 A3
         map.put("LEFT_ID", LEFT_ID);
+        // END MODIFIED CODE CSCI621 H2 A3
         map.put("LIKE", LIKE);
         map.put("LIMIT", LIMIT);
         map.put("LOCALTIME", LOCALTIME);

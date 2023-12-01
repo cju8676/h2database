@@ -2198,6 +2198,7 @@ public final class Parser extends ParserBase {
                 addJoin(top, join, true, on);
                 break;
             }
+            // BEGIN MODIFIED CODE CSCI621 H2 A3
             case LEFT_ID: {
                 read();
                 readIf("OUTER");
@@ -2213,6 +2214,7 @@ public final class Parser extends ParserBase {
                 addJoin(top, join, false, on);
                 break;
             }
+            // END MODIFIED CODE CSCI621 H2 A3
             case FULL:
                 read();
                 throw getSyntaxError();
@@ -2255,7 +2257,9 @@ public final class Parser extends ParserBase {
             default:
                 if (expectedList != null) {
                     // FULL is intentionally excluded
+                    // BEGIN MODIFIED CODE CSCI621 H2 A3
                     addMultipleExpected(RIGHT, LEFT, LEFT_ID, INNER, JOIN, CROSS, NATURAL);
+                    // END MODIFIED CODE CSCI621 H2 A3
                 }
                 return top;
             }

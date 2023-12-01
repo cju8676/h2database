@@ -276,8 +276,10 @@ public abstract class Token implements Cloneable {
             "KEY",
             // LEFT
             "LEFT",
+            // BEGIN MODIFIED CODE CSCI621 H2 A3
             // LEFT_ID
             "LEFT_ID",
+            // END MODIFIED CODE CSCI621 H2 A3
             // LIKE
             "LIKE",
             // LIMIT

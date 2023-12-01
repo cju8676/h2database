@@ -692,12 +692,13 @@ public final class Tokenizer {
     private int readL(String sql, int end, int tokenStart, ArrayList<Token> tokens) {
         int endIndex = findIdentifierEnd(sql, end, tokenStart);
         int length = endIndex - tokenStart;
-        String READL = sql.substring(tokenStart, endIndex);
         int type;
         if (eq("LEFT", sql, tokenStart, length)) {
             type = LEFT;
+        // BEGIN MODIFIED CODE CSCI621 H2 A3
         } else if (eq("LEFT_ID", sql, tokenStart, length)) {
             type = LEFT_ID;
+        // END MODIFIED CODE CSCI621 H2 A3
         } else if (eq("LIMIT", sql, tokenStart, length)) {
             type = provider.getMode().limit ? LIMIT : IDENTIFIER;
         } else if (eq("LIKE", sql, tokenStart, length)) {
