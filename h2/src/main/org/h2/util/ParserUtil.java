@@ -252,9 +252,9 @@ public class ParserUtil {
     public static final int LEFT = KEY + 1;
 
     /**
-     * The token "LEFT_INVERSE".
+     * The token "LEFT_ID".
      */
-    public static final int LEFT_INVERSE = LEFT + 1;
+    public static final int LEFT_ID = LEFT + 1;
 
     /**
      * The token "LIKE".
@@ -533,7 +533,7 @@ public class ParserUtil {
         map.put("JOIN", JOIN);
         map.put("KEY", KEY);
         map.put("LEFT", LEFT);
-        map.put("LEFT_INVERSE", LEFT_INVERSE);
+        map.put("LEFT_ID", LEFT_ID);
         map.put("LIKE", LIKE);
         map.put("LIMIT", LIMIT);
         map.put("LOCALTIME", LOCALTIME);

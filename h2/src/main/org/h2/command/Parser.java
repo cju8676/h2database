@@ -2198,13 +2198,19 @@ public final class Parser extends ParserBase {
                 addJoin(top, join, true, on);
                 break;
             }
-            case LEFT_INVERSE: {
+            case LEFT_ID: {
                 read();
                 readIf("OUTER");
                 read(JOIN);
-                join = readTableReference();
-                Expression on = readJoinSpecification(top, join, false);
-                addJoin(top, join, true, on);
+                join = readTablePrimary();
+                Expression on = null;
+                for (Column column1 : last.getTable().getColumns()) {
+                    Column column2 = join.getColumn(last.getColumnName(column1), true);
+                    if (column2 != null && column2.getName().toLowerCase().contains("id")) {
+                        on = addJoinColumn(on, last, join, column1, column2, true);
+                    }
+                }
+                addJoin(top, join, false, on);
                 break;
             }
             case FULL:
@@ -2249,7 +2255,7 @@ public final class Parser extends ParserBase {
             default:
                 if (expectedList != null) {
                     // FULL is intentionally excluded
-                    addMultipleExpected(RIGHT, LEFT, LEFT_INVERSE, INNER, JOIN, CROSS, NATURAL);
+                    addMultipleExpected(RIGHT, LEFT, LEFT_ID, INNER, JOIN, CROSS, NATURAL);
                 }
                 return top;
             }

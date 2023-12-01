@@ -276,8 +276,8 @@ public abstract class Token implements Cloneable {
             "KEY",
             // LEFT
             "LEFT",
-            //LEFT_INVERSE
-            "LEFT_INVERSE",
+            // LEFT_ID
+            "LEFT_ID",
             // LIKE
             "LIKE",
             // LIMIT

@@ -696,8 +696,8 @@ public final class Tokenizer {
         int type;
         if (eq("LEFT", sql, tokenStart, length)) {
             type = LEFT;
-        } else if (eq("LEFT_INVERSE", sql, tokenStart, length)) {
-            type = LEFT_INVERSE;
+        } else if (eq("LEFT_ID", sql, tokenStart, length)) {
+            type = LEFT_ID;
         } else if (eq("LIMIT", sql, tokenStart, length)) {
             type = provider.getMode().limit ? LIMIT : IDENTIFIER;
         } else if (eq("LIKE", sql, tokenStart, length)) {
